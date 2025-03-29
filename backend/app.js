@@ -3,12 +3,14 @@ import dotenv from "dotenv";
 import cors from "cors";
 import { errorMiddleware } from "./middlewares/error.js";
 import reservationRouter from "./routes/reservationRoute.js";
-import { dbConnection } from "./database/dbConnection.js";
+import  {dbConnection} from "./database/dbConnection.js";
 
 const app = express();
 
-dotenv.config();
 
+dotenv.config();
+const PORT =process.env.PORT ||4000
+dbConnection();
 app.use(
   cors({
     origin: [process.env.FRONTEND_URL],
@@ -25,8 +27,12 @@ app.get("/", (req, res, next)=>{return res.status(200).json({
   message: "HELLO WORLD AGAIN"
 })})
 
-dbConnection();
+
 
 app.use(errorMiddleware);
 
-export default app;
+
+
+app.listen(PORT, ()=>{
+    console.log(`SERVER HAS STARTED AT PORT ${PORT}`);
+})

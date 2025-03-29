@@ -1,18 +1,21 @@
 import mongoose from "mongoose";
 
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const URI = process.env.MONGO_URI
 
 
 
-
-export const dbConnection = () => {
-  mongoose
-    .connect(process.env.MONGO_URI, {
-      dbName: "RESERVATIONS",
-    })
-    .then(() => {
-      console.log("Connected to database!");
-    })
-    .catch((err) => {
-      console.log(`Some error occurred while connecting to database: ${err}`);
-    });
+export const dbConnection = async () => {
+  try {
+         await mongoose.connect(URI)
+         console.log("Connected to DB")
+         
+     } catch (error) {
+         console.log("Error in connecting to DB")
+         process.exit(0)
+         
+     }
 };
